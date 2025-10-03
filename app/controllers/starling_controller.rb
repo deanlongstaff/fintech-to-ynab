@@ -8,6 +8,7 @@ class StarlingController < ApplicationController
 
     import = ::F2ynab::Webhooks::Starling.new(ynab_client, webhook,
       skip_foreign_currency_flag: ENV['SKIP_FOREIGN_CURRENCY_FLAG'].present?,
+      omit_import_id: ENV['OMIT_IMPORT_ID'].present?,
     ).import
 
     if import.try(:id) || import.try(:[], :warning)

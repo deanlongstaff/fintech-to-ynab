@@ -10,6 +10,7 @@ class MonzoController < ApplicationController
       skip_emoji: ENV['SKIP_EMOJI'].present?,
       skip_tags: ENV['SKIP_TAGS'].present?,
       skip_foreign_currency_flag: ENV['SKIP_FOREIGN_CURRENCY_FLAG'].present?,
+      omit_import_id: ENV['OMIT_IMPORT_ID'].present?,
     ).import
 
     if import.try(:id) || import.try(:[], :warning)

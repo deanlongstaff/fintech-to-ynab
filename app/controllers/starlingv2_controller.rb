@@ -18,8 +18,8 @@ class Starlingv2Controller < ApplicationController
 
   def feed
     webhook = JSON.parse(request.body.read, symbolize_names: true)
-    
-    return { warning: :unsupported_type } unless webhook[:content][:source].in?(SUPPORTED_SOURCES)
+
+    return render json: { warning: :unsupported_type } unless webhook[:content]&.[](:source)&.in?(SUPPORTED_SOURCES)
 
 
     ynab_budget_id = params[:ynab_budget_id] || ENV['YNAB_BUDGET_ID']
@@ -40,7 +40,7 @@ class Starlingv2Controller < ApplicationController
 
     import = ::F2ynab::YNAB::TransactionCreator.new(
       ynab_client,
-      id: "S:#{webhook[:content][:feedItemUid]}",
+      id: ENV['OMIT_IMPORT_ID'].present? ? nil : "S:#{webhook[:content][:feedItemUid]}",
       date: Time.parse(webhook[:content][:transactionTime]).to_date,
       amount: amount,
       payee_name: payee_name,

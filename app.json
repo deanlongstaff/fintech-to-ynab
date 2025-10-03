@@ -35,6 +35,10 @@
     "URL_SECRET": {
       "description": "Optional: This is a secret used for the webhooks endpoint.",
       "required": false
+    },
+    "OMIT_IMPORT_ID": {
+      "description": "Optional: This will tell Fintech to YNAB to omit the import_id when creating transactions. This makes transactions eligible for matching with future imports from your bank.",
+      "required": false
     }
   }
 }
